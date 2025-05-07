@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1>Welcome to DevSkillForge!</h1>
+    <p>This is the home page.</p>
+    {% if current_user.is_authenticated %}
+        <p>Hello, {{ current_user.username }}!</p>
+    {% else %}
+        <p>Please <a href="{{ url_for(\'auth.login\') }}">log in</a> or <a href="{{ url_for(\'auth.register\') }}">register</a>.</p>
+    {% endif %}
+{% endblock content %}
+

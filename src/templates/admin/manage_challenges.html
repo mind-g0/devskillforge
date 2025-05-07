@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="content-section">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2>Manage Challenges</h2>
+            <a href="{{ url_for(\'admin.add_challenge\') }}" class="btn btn-success">Add New Challenge</a> {# Placeholder for add_challenge route #}
+        </div>
+        {% if challenges %}
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>Category</th>
+                        <th>Language</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for challenge in challenges %}
+                        <tr>
+                            <td>{{ challenge.id }}</td>
+                            <td>{{ challenge.title }}</td>
+                            <td>{{ challenge.category }}</td>
+                            <td>{{ challenge.language_type }}</td>
+                            <td>
+                                <a href="{{ url_for(\'challenges.view_challenge\', challenge_id=challenge.id) }}" class="btn btn-info btn-sm">View</a>
+                                <a href="#" class="btn btn-primary btn-sm">Edit</a> {# Placeholder for edit_challenge route #}
+                                <a href="#" class="btn btn-danger btn-sm">Delete</a> {# Placeholder for delete_challenge route #}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No challenges found. <a href="#">Add one now!</a></p> {# Placeholder for add_challenge route #}
+        {% endif %}
+    </div>
+{% endblock content %}
+

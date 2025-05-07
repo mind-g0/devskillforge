@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="content-section">
+        <h2>Available Challenges</h2>
+        {% if challenges %}
+            <ul class="list-group">
+                {% for challenge in challenges %}
+                    <li class="list-group-item">
+                        <a href="{{ url_for('challenges.view_challenge', challenge_id=challenge.id) }}">{{ challenge.title }}</a>
+                        <small class="text-muted">({{ challenge.category }} - {{ challenge.language_type }})</small>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No challenges available at the moment. Check back soon!</p>
+        {% endif %}
+    </div>
+{% endblock content %}
+

@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="content-section">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2>Manage Users</h2>
+            {# <a href="#" class="btn btn-success">Add New User</a> #} {# Placeholder for add_user route, if needed #}
+        </div>
+        {% if users %}
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user_item in users %}
+                        <tr>
+                            <td>{{ user_item.id }}</td>
+                            <td>{{ user_item.username }}</td>
+                            <td>{{ user_item.email }}</td>
+                            <td>{{ user_item.role }}</td>
+                            <td>
+                                <a href="#" class="btn btn-primary btn-sm">Edit Role</a> {# Placeholder for edit_user_role route #}
+                                {# Add other user actions if needed, e.g., view submissions, delete user (with caution) #}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No users found.</p>
+        {% endif %}
+    </div>
+{% endblock content %}
+

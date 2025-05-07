@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="content-section">
+        <h2>User Dashboard</h2>
+        <p>Welcome, {{ current_user.username }}!</p>
+        
+        <h3>Your Progress:</h3>
+        <ul>
+            <li>Completed Challenges: {{ stats.completed_challenges }}</li>
+            <li>Points: {{ stats.points }}</li>
+            <li>XP: {{ stats.xp }}</li>
+            <li>Badges: 
+                {% if stats.badges %}
+                    {% for badge in stats.badges %}
+                        <span class="badge badge-primary">{{ badge }}</span>
+                    {% endfor %}
+                {% else %}
+                    None yet!
+                {% endif %}
+            </li>
+        </ul>
+        
+        <!-- Placeholder for weekly goals, streaks, and past submissions -->
+        <h4>Weekly Goals & Streaks (Coming Soon)</h4>
+        <h4>Past Submissions (Coming Soon)</h4>
+    </div>
+{% endblock content %}
+
