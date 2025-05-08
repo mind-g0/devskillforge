@@ -1,39 +1,46 @@
-{% extends "base.html" %}
+{% extends "layout.html" %}
 {% block content %}
-    <div class="content-section">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <h2>Manage Users</h2>
-            {# <a href="#" class="btn btn-success">Add New User</a> #} {# Placeholder for add_user route, if needed #}
-        </div>
-        {% if users %}
-            <table class="table table-striped">
-                <thead>
+<div class="container mt-4">
+    <h2>Manage Users</h2>
+    <hr>
+    {% if users %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user_item in users %}
                     <tr>
-                        <th>ID</th>
-                        <th>Username</th>
-                        <th>Email</th>
-                        <th>Role</th>
-                        <th>Actions</th>
+                        <td>{{ user_item.id }}</td>
+                        <td>{{ user_item.username }}</td>
+                        <td>{{ user_item.email }}</td>
+                        <td>
+                           <form action="{{ url_for("admin.edit_user_role", user_id=user_item.id) }}" method="POST" class="form-inline">                                <select name="role" class="form-control form-control-sm mr-2">
+                                    <option value="Student" {% if user_item.role == "Student" %}selected{% endif %}>Student</option>
+                                    <option value="Admin" {% if user_item.role == "Admin" %}selected{% endif %}>Admin</option>
+                                </select>
+                                <button type="submit" class="btn btn-sm btn-primary">Update Role</button>
+                            </form>
+                        </td>
+                        <td>
+                            {# Add other user actions here if needed, e.g., delete user - careful with this! #}
+                            {% if user_item.id == current_user.id %}
+                                (Current User)
+                            {% endif %}
+                        </td>
                     </tr>
-                </thead>
-                <tbody>
-                    {% for user_item in users %}
-                        <tr>
-                            <td>{{ user_item.id }}</td>
-                            <td>{{ user_item.username }}</td>
-                            <td>{{ user_item.email }}</td>
-                            <td>{{ user_item.role }}</td>
-                            <td>
-                                <a href="#" class="btn btn-primary btn-sm">Edit Role</a> {# Placeholder for edit_user_role route #}
-                                {# Add other user actions if needed, e.g., view submissions, delete user (with caution) #}
-                            </td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        {% else %}
-            <p>No users found.</p>
-        {% endif %}
-    </div>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No users found.</p>
+    {% endif %}
+</div>
 {% endblock content %}
 

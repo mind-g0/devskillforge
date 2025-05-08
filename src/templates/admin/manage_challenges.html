@@ -1,40 +1,39 @@
-{% extends "base.html" %}
+{% extends "layout.html" %}
 {% block content %}
-    <div class="content-section">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <h2>Manage Challenges</h2>
-            <a href="{{ url_for(\'admin.add_challenge\') }}" class="btn btn-success">Add New Challenge</a> {# Placeholder for add_challenge route #}
-        </div>
-        {% if challenges %}
-            <table class="table table-striped">
-                <thead>
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Manage Challenges</h2>
+        <a href="{{ url_for("admin.add_challenge") }}" class="btn btn-success">Add New Challenge</a>   </div>
+    <hr>
+    {% if challenges %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Category</th>
+                    <th>Language</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for challenge in challenges %}
                     <tr>
-                        <th>ID</th>
-                        <th>Title</th>
-                        <th>Category</th>
-                        <th>Language</th>
-                        <th>Actions</th>
+                        <td>{{ challenge.id }}</td>
+                        <td>{{ challenge.title }}</td>
+                        <td>{{ challenge.category }}</td>
+                        <td>{{ challenge.language_type }}</td>
+                        <td>
+                            <a href="{{ url_for("admin.edit_challenge", challenge_id=challenge.id) }}" class="btn btn-sm btn-info">Edit</a>                         <form action="{{ url_for("admin.delete_challenge", challenge_id=challenge.id) }}" method="POST" style="display:inline;">
+                                <input type="submit" value="Delete" class="btn btn-sm btn-danger" onclick="return confirm(\'Are you sure you want to delete this challenge? This action cannot be undone.\');">
+                            </form>
+                        </td>
                     </tr>
-                </thead>
-                <tbody>
-                    {% for challenge in challenges %}
-                        <tr>
-                            <td>{{ challenge.id }}</td>
-                            <td>{{ challenge.title }}</td>
-                            <td>{{ challenge.category }}</td>
-                            <td>{{ challenge.language_type }}</td>
-                            <td>
-                                <a href="{{ url_for(\'challenges.view_challenge\', challenge_id=challenge.id) }}" class="btn btn-info btn-sm">View</a>
-                                <a href="#" class="btn btn-primary btn-sm">Edit</a> {# Placeholder for edit_challenge route #}
-                                <a href="#" class="btn btn-danger btn-sm">Delete</a> {# Placeholder for delete_challenge route #}
-                            </td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        {% else %}
-            <p>No challenges found. <a href="#">Add one now!</a></p> {# Placeholder for add_challenge route #}
-        {% endif %}
-    </div>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No challenges found. <a href="{{ url_for("admin.add_challenge") }}">Add one now!</a></p>   {% endif %}
+</div>
 {% endblock content %}
 

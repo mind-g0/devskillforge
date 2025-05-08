@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Admin Dashboard</h2>
+    <hr>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">User Management</h5>
+                    <p class="card-text">View and manage user roles.</p>
+                  <a href="{{ url_for("admin.manage_users") }}" class="btn btn-primary">Manage Users</a>
+                    <p class="mt-2">Total Users: {{ users|length }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Challenge Management</h5>
+                    <p class="card-text">Add, edit, or delete challenges.</p>
+                   <a href="{{ url_for("admin.manage_challenges") }}" class="btn btn-primary">Manage Challenges</a>                    <p class="mt-2">Total Challenges: {{ challenges|length }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="mt-4">
+        <h4>Quick Stats</h4>
+        <ul>
+            <li>Total Users: {{ users|length }}</li>
+            <li>Total Challenges: {{ challenges|length }}</li>
+            <!-- Add more stats as needed -->
+        </ul>
+    </div>
+
+</div>
+{% endblock content %}
+

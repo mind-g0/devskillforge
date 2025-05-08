@@ -1,0 +1,69 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container mt-4">
+    <h2>My Submissions</h2>
+    <hr>
+    {% if submissions %}
+        <div class="accordion" id="submissionsAccordion">
+            {% for submission in submissions %}
+                <div class="card">
+                    <div class="card-header" id="heading{{ loop.index }}">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapse{{ loop.index }}" aria-expanded="false" aria-controls="collapse{{ loop.index }}">
+                                Challenge: {{ submission.challenge_info.title }} ({{ submission.language }}) - Submitted: {{ submission.submission_date.strftime(\"%Y-%m-%d %H:%M:%S\") }}
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="collapse{{ loop.index }}" class="collapse" aria-labelledby="heading{{ loop.index }}" data-parent="#submissionsAccordion">
+                        <div class="card-body">
+                            <h5>Submitted Code:</h5>
+                            <pre><code class="language-{{ submission.language.lower() if submission.language.lower() != \"html/css/js\" else \"html\" }}">{{ submission.submitted_code }}</code></pre>
+                            <hr>
+                            <h5>Output:</h5>
+                            {% if submission.output %}
+                                {% if submission.language.lower() in [\"html/js\", \"html/css/js\"] %}
+                                    <p><em>(HTML/CSS/JS output is rendered live in challenge view)</em></p>
+                                    <p>Raw code submitted:</p>
+                                    <pre><code>{{ submission.output }}</code></pre>
+                                {% else %}
+                                    <pre><code>{{ submission.output }}</code></pre>
+                                {% endif %}
+                            {% else %}
+                                <p><em>No output.</em></p>
+                            {% endif %}
+                            <hr>
+                            <h5>Error Output:</h5>
+                            {% if submission.error_output %}
+                                <pre><code class="text-danger">{{ submission.error_output }}</code></pre>
+                            {% else %}
+                                <p><em>No errors.</em></p>
+                            {% endif %}
+                            <hr>
+                            <a href="{{ url_for(\"challenges.view_challenge\", challenge_id=submission.challenge_id) }}" class="btn btn-sm btn-primary">View Challenge</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>You haven\'t made any submissions yet. <a href="{{ url_for(\"challenges.list_challenges\") }}">Find a challenge!</a></p>
+    {% endif %}
+</div>
+
+{# Add prism.js for syntax highlighting if not already in layout.html #}
+{# Example for layout.html or this page specifically:
+<link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script> 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-css.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", (event) => {
+        Prism.highlightAll();
+    });
+</script>
+#}
+{% endblock content %}
+

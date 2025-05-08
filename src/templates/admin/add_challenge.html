@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container mt-4">
+    <h2>{% if form_type == "edit" %}Edit Challenge{% else %}Add New Challenge{% endif %}</h2>
+    <hr>
+    <form method="POST" action="">
+        {{ form.hidden_tag() if form and form.hidden_tag }} {# For CSRF token if using Flask-WTF forms later #}
+        <div class="form-group">
+            <label for="title">Title</label>
+            <input type="text" class="form-control" id="title" name="title" value="{{ challenge.title if challenge else "" }}" required>
+        </div>
+        <div class="form-group">
+            <label for="instructions">Instructions (Markdown supported)</label>
+            <textarea class="form-control" id="instructions" name="instructions" rows="5" required>{{ challenge.instructions if challenge else "" }}</textarea>
+        </div>
+        <div class="form-group">
+            <label for="starter_code">Starter Code</label>
+            <textarea class="form-control" id="starter_code" name="starter_code" rows="10">{{ challenge.starter_code if challenge else "" }}</textarea>
+            <small class="form-text text-muted">Leave blank if no starter code is needed.</small>
+        </div>
+        <div class="form-group">
+            <label for="language_type">Language Type</label>
+            <select class="form-control" id="language_type" name="language_type" required>
+                <option value="Python" {% if challenge and challenge.language_type == "Python" %}selected{% endif %}>Python</option>
+                <option value="HTML/CSS/JS" {% if challenge and challenge.language_type == "HTML/CSS/JS" %}selected{% endif %}>HTML/CSS/JS</option>
+                <option value="SQL" {% if challenge and challenge.language_type == "SQL" %}selected{% endif %}>SQL</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="category">Category</label>
+            <select class="form-control" id="category" name="category" required>
+                <option value="Python" {% if challenge and challenge.category == "Python" %}selected{% endif %}>Python</option>
+                <option value="HTML/CSS/JS" {% if challenge and challenge.category == "HTML/CSS/JS" %}selected{% endif %}>HTML/CSS/JS</option>
+                <option value="SQL" {% if challenge and challenge.category == "SQL" %}selected{% endif %}>SQL</option>
+                <option value="APIs" {% if challenge and challenge.category == "APIs" %}selected{% endif %}>APIs</option>
+                <option value="Full Stack" {% if challenge and challenge.category == "Full Stack" %}selected{% endif %}>Full Stack</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary mt-3">{% if form_type == "edit" %}Update Challenge{% else %}Add Challenge{% endif %}</button>
+        <a href="{{ url_for("admin.manage_challenges") }}" class="btn btn-secondary mt-3">Cancel</a>   </form>
+</div>
+{% endblock content %}
+
+
